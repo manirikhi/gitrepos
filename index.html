@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="libs/angular/plugins/ngTable/ng-table.css">
+		<link rel="stylesheet" href="libs/bootstrap/css/bootstrap.css">
+		<style>
+			<style type="text/css">
+@font-face {
+	font-family: 'Glyphicons Halflings';
+	src:
+		url('libs/bootstrap/fonts/glyphicons-halflings-regular.eot');
+	src:
+		url('libs/bootstrap/fonts/glyphicons-halflings-regular.eot?#iefix')
+		format('embedded-opentype'),
+		url('libs/bootstrap/fonts/glyphicons-halflings-regular.woff')
+		format('woff'),
+		url('libs/bootstrap/fonts/glyphicons-halflings-regular.ttf')
+		format('truetype'),
+		url('libs/bootstrap/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular')
+		format('svg');
+}
+		</style>
+	</head>
+	<body ng-app="app">
+	<div class="container">
+		<ng-view />
+	</div>
+		<script type="text/ng-template" id="index.html">
+			<h1>Github Issues List</h1>
+				<table ng-table="tableParams" class="table table-bordered table-striped table-condensed" show-filter="true">
+    <tr ng-repeat="row in $data" ng-click="issueDeatils(row);">
+		<td data-title="'Issue Number'" sortable="'number'" filter="{ 'number': 'text' }" class="td-center">{{row.number}}</td>
+        <td data-title="'Issue Title'" sortable="'title'" filter="{ 'title': 'text' }">{{row.title}}</td>
+    </tr>
+	<tr ng-if="$data == undefined || $data == null || $data == ''">
+		<td colspan="2" class="td-center">Issues not matching given criteria.</td>
+    </tr>
+</table>
+</script>
+		
+<script type="text/ng-template" id="issues.html">
+    <div id="issue-details" class="row">
+	<div class="col-sm-12">
+            <div class="well">
+						<h2>{{issue.title}}  #{{issue.number}}</h1>
+                        <p> <div class="state state-open">
+<span class="glyphicon glyphicon-eye-open"></span> {{issue.state}}
+</div> <strong>User: {{issue.user.login}} </strong> opened this issue at {{issue.created_at}},  {{issue.comments}} comment</p>            
+            </div>
+			<!--user comments /row -->
+	<div class="row">
+		<div class="col-sm-1 col-xs-2">
+			<div class="thumbnail">
+				<img class="img-responsive user-photo"
+					src="{{issue.user.avatar_url}}">
+			</div>
+			<!-- /thumbnail -->
+		</div>
+		<!-- /col-sm-1 -->
+
+		<div class="col-sm-10 col-xs-9">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<strong>{{issue.user.login}}</strong> <span class="text-muted"> </span>
+				</div>
+				<div class="panel-body" ><div>{{issue.body}}</div></div>
+				<!-- /panel-body -->
+			</div>
+			<!-- /panel panel-default -->
+		</div>
+		<!-- /col-sm-5 -->
+			<button type="submit" class="btn btn-primary" ng-click="goToMainPage();"> Back </button>
+	</div>
+	<!-- /row -->
+	<div class="row" ng-repeat="comment in comments">
+		<div class="col-sm-1 col-xs-2">
+			<div class="thumbnail">
+				<img class="img-responsive user-photo"
+					src="{{comment.user.avatar_url}}">
+			</div>
+			<!-- /thumbnail -->
+		</div>
+		<!-- /col-sm-1 -->
+
+		<div class="col-sm-10 col-xs-9">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<strong>{{comment.user.login}}</strong> <span class="text-muted"> </span>
+				</div>
+				<div class="panel-body" ><div>{{comment.body}}</div></div>
+				<!-- /panel-body -->
+			</div>
+			<!-- /panel panel-default -->
+		</div>
+		<!-- /col-sm-5 -->
+		</div>
+        </div>
+    </div>
+		</script>
+		<script src="libs/angular/angular.js"></script>
+		<script src="libs/angular/plugins/angular-route/angular-route.js"></script>
+		<script src="libs/angular/plugins/ngTable/ng-table.js"></script>
+		<script src="libs/angular/plugins/angular-local-storage.js"></script>
+		<script src="libs/jquery/jquery-1.11.1.min.js"></script>
+		<script src="libs/bootstrap/js/bootstrap.js"></script>
+		<script src="js/app/app.js"></script>
+		<script src="js/app/issues/controllers/githubIssueController.js"></script>
+		<script src="js/app/issues/services/githubServices.js"></script>
+	</body>
+</html>
